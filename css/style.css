@@ -1,0 +1,25 @@
+#areaTrajes {
+    height: auto;
+    width: auto;
+    margin: 20px;
+}
+
+#botones {
+    margin: 10px;
+    padding: 20px;
+}
+
+.bordeVerde {
+    padding:1px;
+    border:3px solid green;
+}
+
+.bordeRojo {
+    padding:1px;
+    border:3px solid red;
+}
+
+#puntuacion {
+    font-size: 30px;
+    text-align: right;
+}
