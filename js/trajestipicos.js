@@ -1,33 +1,53 @@
-//MEJORAS
-//POP UP QUE EXPLIQUE COMO JUGAR
-//REDUCIR Nº TRAJES GENERADOS
-//QUE LA PUNTUACION FUNCIONE CORRECTAMENTE
-//QUE LOS TOASTS NO SE ACUMULEN
+/***** MEJORAS *****/
 //QUE SALGA UN POPUP DE VICTORIA CUANDO GANES Y PERMITA REINICIAR
-//QUE NO SE PUEDAN MOVER LOS TRAJES UNA VEZ SOLTADOS DENTRO DEL CUADRADO
 
 //para acceder luego a las propiedades de las imagenes
 var result = {};
-//numero de puntos ganados
-var puntos = 0;
+//numero de aciertos 
+var aciertos = 0;
 
-//numero aleatorio de containers para las diferentes islas (entre 3 y 7)
-let islas = Math.floor(Math.random() * (8 - 3) + 3);
+/**
+ * Lanza el pop up al finalizar el juego
+ */
+$(function () {
+    $("#dialog-confirm").dialog({
+        resizable: false,
+        height: "auto",
+        width: 400,
+        modal: true,
+        buttons: {
+            "Volver a jugar": function () {
+                location.reload();
+            }
+        }
+    });
+});
+
+
+//numero aleatorio de containers para las diferentes islas (entre 4 y 7)
+let islas = Math.floor(Math.random() * (8 - 4) + 4);
 
 $(document).ready(function () {
+
+    //pop up con las instrucciones del juego
+    $("#dialog").dialog({
+        draggable: false
+    });
+
     //dificultad y carga de imagenes de trajes
     $("#botones button").click(function () {
+        $("#botones button").button("disable");
         if ($(this).text() === "Fácil") {
             crearTrajes(4);
         } else if ($(this).text() === "Normal") {
             crearTrajes(6);
         } else if ($(this).text() === "Experto") {
-            crearTrajes(10);
+            crearTrajes(8);
         }
     })
 
     crearIslas();
-    
+
     /**
      * hace las islas (containers) 'droppable'
      * hace las comprobaciones finales
@@ -35,15 +55,21 @@ $(document).ready(function () {
     $(function () {
         $(".droppable").droppable({
             drop: function (event, ui) {
-    
+
                 result.drop = event.target.alt;
-    
+
+                ui.draggable.draggable({ disabled: true });
+
                 if (result.drag == result.drop) {
                     toastBien();
-                    puntos++;
-                    $("#puntuacion").text(puntos + " puntos");
-                    $(this).addClass("bordeVerde"); 
-                    
+                    aciertos++;
+                    if (aciertos == 1) {
+                        $("#puntuacion").text(aciertos + " acierto");
+                    } else if (aciertos > 1) {
+                        $("#puntuacion").text(aciertos + " aciertos");
+                    }
+                    $(this).addClass("bordeVerde");
+
                 } else {
                     toastMal();
                     $(this).addClass("bordeRojo");
@@ -85,8 +111,8 @@ function crearTrajes(limite) {
         for (let i = 0; i < arrayTrajes.length; i++) {
             let random = randomSinRepetir2(14);
 
-            console.log(arrayTrajes[random].isla)
-            console.log(arrayIslasCreadas)
+            console.log(arrayTrajes[random].isla);
+            console.log(arrayIslasCreadas);
             if (arrayTrajes[random].isla == arrayIslasCreadas && limit < limite) {
                 limit++;
                 console.log(limit);
@@ -98,14 +124,13 @@ function crearTrajes(limite) {
                     'class': 'draggable'
                 }).appendTo('#areaTrajes');
             }
-
         }
-    })
+    });
 
-     /**
-     * Hace la imagen 'draggable'
-     * capturo el 'alt' de la imagen
-     */
+    /**
+    * Hace la imagen 'draggable'
+    * capturo el 'alt' de la imagen
+    */
     $(function () {
         $(".draggable").draggable({
             start: function (e) {
@@ -135,7 +160,7 @@ function toastMal() {
  * Notificación de acierto Toastr
  */
 function toastBien() {
-    toastr["success"]("¡Ganas un punto!")
+    toastr["success"]("¡Correcto!")
 }
 
 /**

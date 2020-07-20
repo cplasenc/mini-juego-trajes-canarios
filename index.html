@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,22 @@
     <link rel="stylesheet" href="css/toastr.css">
     <title>Trajes canarios - Minijuego</title>
 </head>
+
 <body>
+    <!-- Pop up al inicio del juego -->
+    <div id="dialog" title="Instrucciones">
+        <ul>
+            <li>Selecciona un nivel de dificultad</li>
+            <li>Arrastra los trajes a la isla correspondiente</li>
+            <li>¡Colecciona aciertos!</li>
+        </ul>
+    </div>
+
+    <!-- Pop up al final del juego -->
+    <div id="dialog-confirm" title="Empty the recycle bin?">
+        <p><span class="ui-icon ui-icon-alert"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+      </div>
+      
 
     <div id="container">
         <div id="botones">
@@ -22,10 +38,10 @@
         <div id="puntuacion">Puntuación</div>
 
         <div id="areaIslas"></div>
-    
+
         <fieldset>
             <legend><strong>TRAJES</strong></legend>
-                <div id="areaTrajes"></div>
+            <div id="areaTrajes"></div>
         </fieldset>
     </div>
 </body>
@@ -37,4 +53,5 @@
 <!-- código principal -->
 <script src="js/trajestipicos.js"></script>
 <script src="js/data.js"></script>
+
 </html>
