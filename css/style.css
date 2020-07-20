@@ -1,4 +1,10 @@
-#areaTrajes {
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#areaTrajes, #areaIslas {
     height: auto;
     width: auto;
     margin: 20px;
@@ -7,6 +13,7 @@
 #botones {
     margin: 10px;
     padding: 20px;
+    text-align: center;
 }
 
 .bordeVerde {
@@ -21,5 +28,4 @@
 
 #puntuacion {
     font-size: 30px;
-    text-align: right;
 }

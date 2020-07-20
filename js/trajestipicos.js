@@ -1,3 +1,11 @@
+//MEJORAS
+//POP UP QUE EXPLIQUE COMO JUGAR
+//REDUCIR Nº TRAJES GENERADOS
+//QUE LA PUNTUACION FUNCIONE CORRECTAMENTE
+//QUE LOS TOASTS NO SE ACUMULEN
+//QUE SALGA UN POPUP DE VICTORIA CUANDO GANES Y PERMITA REINICIAR
+//QUE NO SE PUEDAN MOVER LOS TRAJES UNA VEZ SOLTADOS DENTRO DEL CUADRADO
+
 //para acceder luego a las propiedades de las imagenes
 var result = {};
 //numero de puntos ganados
@@ -18,28 +26,18 @@ $(document).ready(function () {
         }
     })
 
-    //genera las islas al azar
-    for (let i = 0; i < islas; i++) {
-        //let random2 = Math.floor(Math.random() * 7) + 0;
-        let random2 = randomSinRepetir(7);
-        $('<img />').attr({
-            'src': 'islas/' + arrayIslas[random2],
-            'alt': arrayIslas[random2].slice(0, -4),
-            'width': 240,
-            'height': 220,
-            'class': "droppable"
-        }).appendTo('#areaIslas');
-    }
+    crearIslas();
     
     /**
      * hace las islas (containers) 'droppable'
+     * hace las comprobaciones finales
      */
     $(function () {
         $(".droppable").droppable({
             drop: function (event, ui) {
-
+    
                 result.drop = event.target.alt;
-
+    
                 if (result.drag == result.drop) {
                     toastBien();
                     puntos++;
@@ -51,10 +49,27 @@ $(document).ready(function () {
                     $(this).addClass("bordeRojo");
                 }
             }
-        }
-        );
+        });
     });
+
 })
+
+/**
+ * crea las islas (containers) de forma aleatoria
+ */
+function crearIslas() {
+    for (let i = 0; i < islas; i++) {
+        //let random2 = Math.floor(Math.random() * 7) + 0;
+        let random2 = randomSinRepetir(7);
+        $('<img />').attr({
+            'src': 'images/islas/' + arrayIslas[random2],
+            'alt': arrayIslas[random2].slice(0, -4),
+            'width': 200,
+            'height': 200,
+            'class': "droppable"
+        }).appendTo('#areaIslas');
+    }
+}
 
 /**
  * Genero los trajes en base a las islas (containers) existentes
@@ -76,7 +91,7 @@ function crearTrajes(limite) {
                 limit++;
                 console.log(limit);
                 $('<img />').attr({
-                    'src': 'images/' + arrayTrajes[random].url,
+                    'src': 'images/trajes/' + arrayTrajes[random].url,
                     'alt': arrayTrajes[random].isla,
                     'width': 150,
                     'height': 250,
