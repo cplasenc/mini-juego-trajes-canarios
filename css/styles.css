@@ -5,6 +5,9 @@
 }
 
 #areaTrajes, #areaIslas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
     height: auto;
     width: auto;
     margin: 20px;
@@ -28,4 +31,9 @@
 
 #puntuacion {
     font-size: 30px;
+}
+
+
+#dialog-confirm {
+    display: none;
 }

@@ -1,28 +1,27 @@
-/***** MEJORAS *****/
-//QUE SALGA UN POPUP DE VICTORIA CUANDO GANES Y PERMITA REINICIAR
-
-//para acceder luego a las propiedades de las imagenes
-var result = {};
-//numero de aciertos 
-var aciertos = 0;
+var result = {}; //para acceder luego a las propiedades de las imagenes
+var aciertos = 0; //numero de aciertos 
+var trajesSoltados = 0; //numero de veces que se ha soltado un traje (drop)
+var trajesCreados = 0;
 
 /**
  * Lanza el pop up al finalizar el juego
  */
-$(function () {
-    $("#dialog-confirm").dialog({
-        resizable: false,
-        height: "auto",
-        width: 400,
-        modal: true,
-        buttons: {
-            "Volver a jugar": function () {
-                location.reload();
+function finJuego() {
+    if (trajesCreados == trajesSoltados) {
+        $("#dialog-confirm").dialog({
+            resizable: false,
+            draggable: false,
+            height: "auto",
+            width: 400,
+            modal: true,
+            buttons: {
+                "Volver a jugar": function () {
+                    location.reload();
+                }
             }
-        }
-    });
-});
-
+        });
+    }
+}
 
 //numero aleatorio de containers para las diferentes islas (entre 4 y 7)
 let islas = Math.floor(Math.random() * (8 - 4) + 4);
@@ -31,7 +30,9 @@ $(document).ready(function () {
 
     //pop up con las instrucciones del juego
     $("#dialog").dialog({
-        draggable: false
+        draggable: false,
+        height: "auto",
+        width: "auto"
     });
 
     //dificultad y carga de imagenes de trajes
@@ -58,7 +59,11 @@ $(document).ready(function () {
 
                 result.drop = event.target.alt;
 
+                //le quita la condición de draggable a la imagen
                 ui.draggable.draggable({ disabled: true });
+                
+                trajesSoltados++;
+                finJuego();
 
                 if (result.drag == result.drop) {
                     toastBien();
@@ -70,10 +75,13 @@ $(document).ready(function () {
                     }
                     $(this).addClass("bordeVerde");
 
+
                 } else {
                     toastMal();
                     $(this).addClass("bordeRojo");
+
                 }
+
             }
         });
     });
@@ -101,8 +109,9 @@ function crearIslas() {
  * Genero los trajes en base a las islas (containers) existentes
  * @param {*} limite - número de trajes a crear
  */
+
+
 function crearTrajes(limite) {
-    let limit = 0;
 
     $("#areaIslas > img").each(function () {
 
@@ -113,9 +122,8 @@ function crearTrajes(limite) {
 
             console.log(arrayTrajes[random].isla);
             console.log(arrayIslasCreadas);
-            if (arrayTrajes[random].isla == arrayIslasCreadas && limit < limite) {
-                limit++;
-                console.log(limit);
+            if (arrayTrajes[random].isla == arrayIslasCreadas && trajesCreados < limite) {
+                trajesCreados++;
                 $('<img />').attr({
                     'src': 'images/trajes/' + arrayTrajes[random].url,
                     'alt': arrayTrajes[random].isla,
