@@ -73,15 +73,12 @@ $(document).ready(function () {
                     } else if (aciertos > 1) {
                         $("#puntuacion").text(aciertos + " aciertos");
                     }
-                    $(this).addClass("bordeVerde");
-
-
+                    //$(this).addClass("bordeVerde");
+                    
                 } else {
                     toastMal();
-                    $(this).addClass("bordeRojo");
-
+                    //$(this).addClass("bordeRojo");
                 }
-
             }
         });
     });
